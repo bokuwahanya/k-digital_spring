@@ -1,0 +1,20 @@
+package com.rubypaper.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class BoardController {
+	public BoardController() {
+		System.out.println("==>Boardcontroller 생성");
+	}
+	
+	@GetMapping("/hello")
+	//메서드가 get일때 온다. 포스트는 폼.
+	public String hello(String name) {
+		return "Hello : " + name;
+		//controller를 한다면 위에 리턴값 전체에 대한 view를 던진다. 쓸 일이 별로 없다.
+	}
+	
+}
+
