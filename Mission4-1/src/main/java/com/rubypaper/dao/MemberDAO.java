@@ -149,9 +149,9 @@ public class MemberDAO {
 		
 		String query = "UPDATE Member"
 				+ " SET"
-				+ " username = COALESCE(?, username),"
-				+ " password = COALESCE(?, password),"
-				+ " birthyear = COALESCE(?, birthyear)"
+				+ " username = COALESCE(nullif(?,''), username),"
+				+ " password = COALESCE(nullif(?,''), password),"
+				+ " birthyear = COALESCE(nullif(?,''), birthyear)"
 				+ " WHERE id = ?";
 	
 		try { 
