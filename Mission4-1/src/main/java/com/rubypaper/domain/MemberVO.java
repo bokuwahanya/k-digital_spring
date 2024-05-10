@@ -1,6 +1,12 @@
 package com.rubypaper.domain;
 
+
+
+
+
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,5 +26,7 @@ public class MemberVO {
 	private String pass;
 	private int id;
 	private Date regidate;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private String birth;
 }

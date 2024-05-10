@@ -3,6 +3,7 @@ package com.rubypaper.controller;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +35,7 @@ public class MemberController {
 	}
 
 	@PostMapping("/member")
-	public ResponseEntity<?> add(MemberVO memberVO){
+	public ResponseEntity<?> add(@DateTimeFormat(pattern = "yyyy-MM-dd") MemberVO memberVO){
 		MemberVO memberId = memberService.add(memberVO);
 		if(memberId == null)
 			return ResponseEntity.badRequest().body("존재하지  id임.");
@@ -42,7 +43,7 @@ public class MemberController {
 
 	}
 	@PutMapping("/member")
-	public ResponseEntity<?> update(MemberVO memberVO) throws SQLException{
+	public ResponseEntity<?> update(@DateTimeFormat(pattern = "yyyy-MM-dd") MemberVO memberVO) throws SQLException{
 		int m = memberService.update(memberVO);
 		if(m == 0)
 			return ResponseEntity.badRequest().body("존재하지 않는 멤버임 ");
