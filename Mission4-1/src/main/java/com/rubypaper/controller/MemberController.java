@@ -2,12 +2,12 @@ package com.rubypaper.controller;
 
 import java.sql.SQLException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rubypaper.domain.MemberVO;
@@ -15,11 +15,10 @@ import com.rubypaper.service.MemberService;
 
 @RestController
 public class MemberController {
-	MemberService memberService;
+	
+	@Autowired
+	private MemberService memberService;
 
-	public MemberController() {
-		memberService = new MemberService();
-	}
 
 	@GetMapping("/members")
 	public ResponseEntity<?> getAllMember(){
@@ -34,8 +33,8 @@ public class MemberController {
 		return ResponseEntity.ok(m);
 	}
 
-	@PostMapping("/memberJSON")
-	public ResponseEntity<?> add(@RequestBody MemberVO memberVO){
+	@PostMapping("/member")
+	public ResponseEntity<?> add(MemberVO memberVO){
 		MemberVO memberId = memberService.add(memberVO);
 		if(memberId == null)
 			return ResponseEntity.badRequest().body("존재하지  id임.");
@@ -43,7 +42,7 @@ public class MemberController {
 
 	}
 	@PutMapping("/member")
-	public ResponseEntity<?> update(@RequestBody MemberVO memberVO) throws SQLException{
+	public ResponseEntity<?> update(MemberVO memberVO) throws SQLException{
 		int m = memberService.update(memberVO);
 		if(m == 0)
 			return ResponseEntity.badRequest().body("존재하지 않는 멤버임 ");

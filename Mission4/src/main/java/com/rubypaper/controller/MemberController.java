@@ -2,6 +2,7 @@ package com.rubypaper.controller;
 
 import java.sql.SQLException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,13 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rubypaper.domain.MemberVO;
 import com.rubypaper.service.MemberService;
 
+
 @RestController
 public class MemberController {
-	MemberService memberService;
-
-	public MemberController() {
-		memberService = new MemberService();
-	}
+	
+	@Autowired
+	private MemberService memberService;
 
 	@GetMapping("/members")
 	public ResponseEntity<?> getAllMember(){

@@ -4,22 +4,28 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.rubypaper.dao.LogDAO;
 import com.rubypaper.dao.MemberDAO;
 import com.rubypaper.domain.LogVO;
 import com.rubypaper.domain.MemberVO;
 
+import lombok.RequiredArgsConstructor;
+@RequiredArgsConstructor
+//필드가 많아지면 이게 더 낫다
+@Service
 public class MemberService {
-	MemberDAO memberDAO;
-	LogDAO logDAO;
 	
-	public MemberService() {
-		memberDAO =new MemberDAO();
-		logDAO = new LogDAO();
-	}
 	
+	private	final MemberDAO memberDAO;
+	private final LogDAO logDAO;
+	
+	Map<String, Object> map = null;
+	
+	@SuppressWarnings("unchecked")
 	public List<MemberVO> getAllMember(){
-		Map<String, Object> map = null;
 		
 		try {
 			map = memberDAO.getAllMember();
@@ -32,12 +38,9 @@ public class MemberService {
 	public MemberVO getMemberById(Integer id) {
 		MemberVO m = null;
 		try {
-			m = memberDAO.getMemberId(id);
-			logDAO.Log(LogVO.builder()
-					.method("getMemberById")
-					.sqlstring("select * from member where id="+id)
-					.success(1)
-					.build());
+			map = memberDAO.getMemberById(id);
+			m = (MemberVO) map.get("byId");
+			logDAO.addLog("get",(String)map.get("sql") , (boolean)map.get("result")?1:0);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -45,36 +48,24 @@ public class MemberService {
 	}
 	public MemberVO add(MemberVO memberVO) {
 		MemberVO m = null;
-		String x = memberVO.getName();
-		String y = memberVO.getPass();
-		String z = memberVO.getBirth();
 		try {
-			m = memberDAO.add(memberVO);
-			LogDAO logDAO = new LogDAO();
-			logDAO.Log(LogVO.builder()
-					.method("POST")
-					.sqlstring("insert into Member(username,password,birthyear) values("
-							+x+","+y+","+z+")")
-					.success(1)
-					.build());
+			map = memberDAO.add(memberVO);
+			m = (MemberVO) map.get("add");
+			logDAO.addLog("post",(String)map.get("sql"), (boolean)map.get("result")?1:0);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return m;
 	}
 	
-	public Integer update(MemberVO memberVO) throws SQLException {
+
+	public int update(MemberVO memberVO) throws SQLException {
 		
 		Integer m =null;
 		try {
-		m = memberDAO.update(memberVO);
-		LogDAO logDAO = new LogDAO();
-		logDAO.Log(LogVO.builder()
-				.method("POST")
-				.sqlstring("insert into Member(username,password,birthyear) values("
-						+x+","+y+","+z+")")
-				.success(1)
-				.build());
+		map = memberDAO.update(memberVO);
+		m = (int) map.get("update");
+		logDAO.addLog("put",(String)map.get("sql"), (boolean)map.get("result")?1:0);
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -84,9 +75,10 @@ public class MemberService {
 	public Integer remove(Integer id) {
 		Integer m = null;
 		try {
-			m = memberDAO.remove(id);
+			map = memberDAO.remove(id);
+			m = (Integer) map.get("delete");
+			logDAO.addLog("delete",(String)map.get("sql"), (boolean)map.get("result")?1:0);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return m;

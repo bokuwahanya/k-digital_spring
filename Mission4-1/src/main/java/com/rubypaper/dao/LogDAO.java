@@ -5,18 +5,20 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
+import org.springframework.stereotype.Repository;
+
 import com.rubypaper.domain.LogVO;
 
-public class LogDAO {
-	public Connection con;
+import lombok.RequiredArgsConstructor;
 
-	public LogDAO() {
-		try {
-			con = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/.h2/sqlprg", "sa", "1234");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+@RequiredArgsConstructor
+@Repository
+public class LogDAO {
+	
+
+	private final DataSource dataSource;
 
 	public void addLog(String m, String q, int success) {
 		LogVO logVO = LogVO.builder()
@@ -27,7 +29,7 @@ public class LogDAO {
 		PreparedStatement psmt = null;
 		try {
 			String query = "insert into DBLOG(METHOD,SQLSTRING,SUCCESS) values(?,?,?)";
-			psmt = con.prepareStatement(query);
+			psmt = dataSource.getConnection().prepareStatement(query);
 			psmt.setString(1, logVO.getMethod());
 			psmt.setString(2, logVO.getSqlstring());
 			psmt.setInt(3, logVO.getSuccess());

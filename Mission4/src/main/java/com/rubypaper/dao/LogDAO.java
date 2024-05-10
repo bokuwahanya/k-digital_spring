@@ -5,8 +5,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Repository;
+
 import com.rubypaper.domain.LogVO;
 
+@Repository
 public class LogDAO {
 	public Connection con;
 

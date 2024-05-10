@@ -3,18 +3,21 @@ package com.rubypaper.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.rubypaper.dao.LogDAO;
 import com.rubypaper.dao.MemberDAO;
 import com.rubypaper.domain.LogVO;
 import com.rubypaper.domain.MemberVO;
 
+@Service
 public class MemberService {
-	MemberDAO memberDAO;
 	
-	public MemberService() {
-		memberDAO =new MemberDAO();
-	}
+	@Autowired
+	private MemberDAO memberDAO;
 	
+
 	public List<MemberVO> getAllMember(){
 		List<MemberVO> list = null;
 		
@@ -70,6 +73,9 @@ public class MemberService {
 	public Integer update(MemberVO memberVO) throws SQLException {
 		
 		Integer m =null;
+		String x = memberVO.getName();
+		String y = memberVO.getPass();
+		String z = memberVO.getBirth();
 		try {
 		m = memberDAO.update(memberVO);
 		LogDAO logDAO = new LogDAO();
