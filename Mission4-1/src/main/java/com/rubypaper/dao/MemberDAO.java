@@ -13,18 +13,19 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rubypaper.domain.MemberVO;
 
 import lombok.RequiredArgsConstructor;
-@RequiredArgsConstructor
+
 @Repository
 public class MemberDAO {
 
-
-	private final DataSource dataSource;
+	
+	@Autowired
+	private  DataSource dataSource;
 	//spring starter에 spring boot data 추가. 
 	//resources//apllication.properties 에만들면된다
 
@@ -34,8 +35,9 @@ public class MemberDAO {
 		boolean flag = true;
 		ResultSet rs = null;
 		Statement stmt = null;
-
+		
 		String query = "select * from member ";
+		
 		try {
 			stmt = dataSource.getConnection().createStatement(); // 질의객체 생성
 			rs = stmt.executeQuery(query); // 질의 및 결과 셋 받기
@@ -71,7 +73,9 @@ public class MemberDAO {
 		boolean flag = true;
 		ResultSet rs = null;
 		PreparedStatement psmt = null;
+		
 		String query = "select * from member where id=?";
+		
 		try {
 			psmt = dataSource.getConnection().prepareStatement(query);
 			psmt.setInt(1, id);
@@ -109,6 +113,7 @@ public class MemberDAO {
 	public Map<String,Object> add(MemberVO memberVO) throws SQLException {
 		PreparedStatement psmt = null;
 		boolean flag = true;
+		
 		String query = "insert into Member(username,password,birthyear) values(?,?,?)";
 		
 		try {
@@ -190,7 +195,9 @@ public class MemberDAO {
 		}
 		boolean flag = true;
 		int result;
+		
 		String query ="delete from member where id=?";
+		
 		try {
 			psmt = dataSource.getConnection().prepareStatement(query);
 			psmt.setInt(1, id);
