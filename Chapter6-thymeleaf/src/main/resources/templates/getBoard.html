@@ -1,0 +1,61 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글 상세</title>
+    <style>
+        table {
+            border: 1px solid black;
+            border-spacing: 0; /* cellspacing 대체 */
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td {
+            padding: 10px; /* cellpadding 대체 */
+        }
+        .header {
+            background-color: orange;
+            width: 70px;
+        }
+        .full-width {
+            width: 100%;
+        }
+    </style>
+</head>
+<body th:align="center">
+    <div>
+        <h1>게시글 상세</h1>
+            <table th:align="center" border="1" th:cellpadding="0" th:cellspacing="0">
+                <tr>
+                    <td class="header">제목</td>
+                    <td align="left">
+                        <input name="title" type="text" th:value="${board.title}" class="full-width"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="header">작성자</td>
+                    <td align="left" th:text="${board.writer}"></td>
+                </tr>
+                <tr>
+                    <td class="header">내용</td>
+                    <td align="left">
+                        <textarea name="content" cols="40" rows="10" class="full-width" th:text="${board.content}"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="header">등록일</td>
+                    <td align="left" th:text="${board.createDate}"></td>
+                </tr>
+                <tr>
+                    <td class="header">조회수</td>
+                    <td align="left" th:text="${board.cnt}"></td>
+                </tr>
+            </table>
+        <a th:href="@{/insertBoardView}">글등록</a>&nbsp;&nbsp;&nbsp;
+        <a th:if="${session['member'].role == 'ROLE_ADMIN'}"
+       		th:href="@{/deleteBoard(seq=${board.seq})}">글삭제</a>&nbsp;&nbsp;&nbsp;
+        <a th:href="@{/getBoardList}">글목록</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>시큐리티 테스트</title>
+</head>
+<body>
+<h2 th:text="'환영합니다, ' + ${username} + '님!'"></h2>
+<a th:href="@{/}">Index 페이지로 이동</a><br/>
+<a th:href="@{/member}">Member 페이지로 이동</a><br/>
+<a th:href="@{/manager}">Manager 페이지로 이동</a><br/>
+<a th:href="@{/admin}">Admin 페이지로 이동</a><br/>
+<a th:href="@{/auth}">로그인 세션 정보 확인 페이지로 이동</a>
+
+</body>
+</html>
