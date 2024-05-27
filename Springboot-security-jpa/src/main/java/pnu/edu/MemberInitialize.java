@@ -40,7 +40,5 @@ public class MemberInitialize implements ApplicationRunner {
 							.role(Role.ROLE_ADMIN)
 							.enabled(true)
 							.build());
-		
-		
 	}
 }
